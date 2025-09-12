@@ -1,175 +1,44 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>個人品牌定位與市場分析報告</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>後端通訊測試</title>
     <style>
-        body { font-family: 'Noto Sans TC', sans-serif; }
-        .chart-container { position: relative; width: 100%; max-width: 500px; margin-left: auto; margin-right: auto; height: 40vh; max-height: 400px; }
-        .accordion-content { transition: max-height 0.3s ease-out, padding 0.3s ease-out; max-height: 0; overflow: hidden; }
-        .accordion-content.open { max-height: 500px; padding-top: 1rem; padding-bottom: 1rem; }
+        body { font-family: sans-serif; padding: 2em; }
+        #result { font-weight: bold; font-size: 1.2em; padding: 1em; border: 1px solid #ccc; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body>
+  <h1>正在測試與 Google 後端的連線...</h1>
+  <p>測試結果：</p>
+  <div id="result" style="color: orange;">請稍候... 正在發送請求...</div>
 
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-xl font-bold text-sky-700">一方美播 | 定位分析報告</div>
-            <div class="hidden md:flex space-x-8">
-                <a href="#summary" class="text-slate-600 hover:text-sky-600">報告總覽</a>
-                <a href="#visuals" class="text-slate-600 hover:text-sky-600">視覺化分析</a>
-                <a href="#insights" class="text-slate-600 hover:text-sky-600">核心洞察</a>
-                <a href="#action" class="text-slate-600 hover:text-sky-600">行動建議</a>
-            </div>
-        </nav>
-    </header>
+  <script>
+    async function testConnection() {
+      // 這是您之前確認過可以運作的 Apps Script URL
+      const webAppUrl = 'https://script.google.com/macros/s/AKfycbwGtrEBnWBuLxlvhC_0l5m9YVm2mUNkw3jdkAGv99p6sfRuGbSIIlCNvhvAzYcje2zB/exec';
+      const resultDiv = document.getElementById('result');
 
-    <main class="container mx-auto p-4 md:p-8">
-        <section id="intro" class="text-center mb-12">
-            <h1 class="text-3xl md:text-4xl font-bold text-sky-800 mb-2">個人品牌定位與市場分析報告</h1>
-            <p id="report-title" class="text-lg text-slate-600">報告載入中...</p>
-            <p class="mt-2 max-w-3xl mx-auto text-slate-500">這份報告是「大媛學姐」專為您量身打造的市場分析，希望能幫助您釐清方向，加速您的個人品牌發展！</p>
-        </section>
-        <section id="summary" class="mb-12">
-            <div class="bg-white p-6 rounded-lg shadow-lg border-l-4 border-sky-500">
-                <h2 class="text-2xl font-bold text-slate-800 mb-4">報告總覽</h2>
-                <p id="report-summary" class="text-slate-600 leading-relaxed">報告內容載入中...</p>
-            </div>
-        </section>
-        <section id="visuals" class="mb-12">
-            <h2 class="text-3xl font-bold text-center mb-8 text-slate-800">視覺化分析</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h3 class="text-xl font-semibold text-center mb-4">五維定位雷達圖</h3>
-                    <p class="text-sm text-slate-500 text-center mb-4">評估您在「定位清晰度」、「產品潛力」、「流量基礎」、「變現能力」與「資源整合」五大核心維度的品牌力。</p>
-                    <div class="chart-container"><canvas id="radarChart"></canvas></div>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h3 class="text-xl font-semibold text-center mb-4">賽道權重分佈圖</h3>
-                    <p class="text-sm text-slate-500 text-center mb-4">分析您目前關注的主要賽道領域權重分佈，釐清您的核心焦點。</p>
-                    <div class="chart-container"><canvas id="barChart"></canvas></div>
-                </div>
-            </div>
-        </section>
-        <section id="insights" class="mb-12">
-            <h2 class="text-3xl font-bold text-center mb-8 text-slate-800">核心洞察與建議</h2>
-            <div id="accordion-container" class="space-y-4 max-w-4xl mx-auto">
-                <div class="text-center text-slate-500">洞察建議載入中...</div>
-            </div>
-        </section>
-        <section id="action" class="text-center bg-white p-8 rounded-lg shadow-lg">
-            <h2 id="cta-title" class="text-2xl font-bold text-sky-800 mb-4"></h2>
-            <p id="cta-content" class="text-slate-600 max-w-2xl mx-auto mb-6"></p>
-            <button id="cta-button" class="bg-sky-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-sky-700 transition duration-300"></button>
-        </section>
-    </main>
-    <footer class="mt-12 py-8 bg-slate-100 border-t">
-        <div class="container mx-auto px-6 text-center text-slate-500">
-            <p class="font-semibold">出品單位：一方美播｜新媒體 × 1人公司 × IP 變現定位陪跑導師（大媛學姐）</p>
-            <p class="text-sm mt-2 max-w-3xl mx-auto">(大媛學姐) 立志陪伴一萬名學員，培養 ”具備” 經濟獨立思維的超級個體，並打造一個 “持續成長、永續學習”的”資源共享”社群。</p>
-            <div class="mt-4"><a href="#" class="text-sky-600 font-bold hover:underline">點擊此處 ”領取入場券”</a></div>
-            <hr class="my-6 border-slate-200">
-            <p class="text-xs">**免責說明：** 本報告結合「亞洲文化心理學 × AI 數據」產出，用於輔助決策。定位是動態調整過程；若需更精準方案，建議諮詢 1 對 1 專屬梳理。</p>
-        </div>
-    </footer>
-
-    <script>
-        // --- DATA FETCHING (GitHub Pages Version) ---
-        async function getReportData() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const cacheKey = urlParams.get('key');
-
-            if (!cacheKey) {
-                handleError("報告連結無效或已過期。請確認您從 Email 中複製的連結是否完整。");
-                return;
-            }
-
-            // ▼▼▼【重要！此處 URL 必須替換成您 Apps Script 最終部署的 URL】▼▼▼
-            // 我們之前建立的那個可以運作的 Apps Script 網址
-            const webAppUrl = 'https://script.google.com/macros/s/AKfycbwGtrEBnWBuLxlvhC_0l5m9YVm2mUNkw3jdkAGv99p6sfRuGbSIIlCNvhvAzYcje2zB/exec';
-            // ▲▲▲【重要！此處 URL 必須替換成您 Apps Script 最終部署的 URL】▲▲▲
-            
-            document.getElementById('report-summary').textContent = "正在從後端伺服器讀取您的專屬報告...";
-
-            try {
-                // 我們使用 fetch 來呼叫 Apps Script API
-                const response = await fetch(`${webAppUrl}?key=${cacheKey}`);
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    throw new Error(`伺服器錯誤: ${response.status} - ${errorText}`);
-                }
-                const data = await response.json();
-                
-                if (typeof data !== 'object' || !data.scores) {
-                    throw new Error("從伺服器收到的資料格式不正確，可能報告已過期。");
-                }
-
-                renderReport(data);
-                createRadarChart(data.scores);
-                createBarChart(data.trackWeights);
-                
-            } catch (error) {
-                handleError(`載入報告時發生錯誤：${error.message} 請稍後再試或聯繫我們。`);
-            }
+      try {
+        const response = await fetch(webAppUrl);
+        // 檢查伺服器回應是否正常
+        if (!response.ok) {
+            throw new Error(`伺服器回應錯誤，狀態碼: ${response.status}`);
         }
+        const data = await response.json();
+        
+        // 成功抓到資料，顯示訊息
+        resultDiv.textContent = '✅ 成功！收到的訊息是：「' + data.message + '」';
+        resultDiv.style.color = 'green';
 
-        function handleError(message) {
-            console.error(message);
-            document.getElementById('report-title').textContent = "載入錯誤";
-            document.getElementById('report-summary').textContent = message;
-            document.querySelector('#accordion-container').innerHTML = '';
-        }
+      } catch (error) {
+        // 發生錯誤，顯示錯誤訊息
+        resultDiv.textContent = '❌ 失敗！錯誤訊息：' + error.toString();
+        resultDiv.style.color = 'red';
+      }
+    }
 
-        // --- CONTENT RENDERING ---
-        function renderReport(data) {
-            document.getElementById('report-title').textContent = data.title;
-            document.getElementById('report-summary').textContent = data.summary;
-            document.getElementById('cta-title').textContent = data.conclusion.cta_title;
-            document.getElementById('cta-content').textContent = data.conclusion.cta_content;
-            document.getElementById('cta-button').textContent = data.conclusion.cta_button;
-
-            const accordionContainer = document.getElementById('accordion-container');
-            accordionContainer.innerHTML = '';
-            const insights = Object.values(data.analysis);
-
-            insights.forEach((insight) => {
-                const item = document.createElement('div');
-                item.className = 'border border-slate-200 rounded-lg bg-white overflow-hidden shadow-sm';
-                item.innerHTML = `
-                    <button class="accordion-toggle w-full text-left p-4 flex justify-between items-center bg-slate-50 hover:bg-slate-100 transition">
-                        <h3 class="font-semibold text-lg text-slate-700">${insight.heading}</h3>
-                        <svg class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-                    <div class="accordion-content px-4">
-                        <div class="py-4 border-t border-slate-200">
-                             <p class="font-semibold text-slate-800 mb-2">核心洞察</p>
-                             <p class="text-slate-600 mb-4">${insight.content}</p>
-                             <p class="font-semibold text-slate-800 mb-2">💡 行動建議</p>
-                             <p class="text-slate-600">${insight.recommendation}</p>
-                        </div>
-                    </div>`;
-                accordionContainer.appendChild(item);
-            });
-        }
-
-        // --- CHARTS & INTERACTIVITY (內容不變) ---
-        let createRadarChart, createBarChart, setupInteractivity;
-        createRadarChart = function(data) { const ctx = document.getElementById('radarChart').getContext('2d'); new Chart(ctx, { type: 'radar', data: { labels: ["定位清晰度", "產品潛力", "流量基礎", "變現能力", "資源整合"], datasets: [{ label: '個人品牌五維度分析', data: [data.positioning, data.product, data.traffic, data.monetization, data.resources], fill: true, backgroundColor: 'rgba(59, 130, 246, 0.2)', borderColor: 'rgb(59, 130, 246)', pointBackgroundColor: 'rgb(59, 130, 246)', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: 'rgb(59, 130, 246)' }] }, options: { maintainAspectRatio: false, scales: { r: { angleLines: { display: true }, suggestedMin: 0, suggestedMax: 100, pointLabels: { font: { size: 14 } }, ticks: { backdropColor: 'rgba(255, 255, 255, 0.75)' } } }, plugins: { legend: { display: false } } } }); };
-        createBarChart = function(data) { const ctx = document.getElementById('barChart').getContext('2d'); new Chart(ctx, { type: 'bar', data: { labels: ["健康", "美妝", "教育", "理財", "自媒體"], datasets: [{ label: '賽道權重', data: [data.health, data.beauty, data.education, data.finance, data.media], backgroundColor: ['rgba(22, 163, 74, 0.7)','rgba(219, 39, 119, 0.7)','rgba(37, 99, 235, 0.7)','rgba(245, 158, 11, 0.7)','rgba(147, 51, 234, 0.7)'], borderColor: ['rgb(22, 163, 74)','rgb(219, 39, 119)','rgb(37, 99, 235)','rgb(245, 158, 11)','rgb(147, 51, 234)'], borderWidth: 1 }] }, options: { indexAxis: 'y', maintainAspectRatio: false, scales: { x: { beginAtZero: true, max: 100 } }, plugins: { legend: { display: false } } } }); };
-        setupInteractivity = function() { const accordionContainer = document.getElementById('accordion-container'); accordionContainer.addEventListener('click', function(e) { const toggle = e.target.closest('.accordion-toggle'); if (!toggle) return; const content = toggle.nextElementSibling; const icon = toggle.querySelector('svg'); toggle.parentElement.parentElement.querySelectorAll('.accordion-content').forEach(item => { if (item !== content && item.classList.contains('open')) { item.classList.remove('open'); item.previousElementSibling.querySelector('svg').classList.remove('rotate-180'); } }); content.classList.toggle('open'); icon.classList.toggle('rotate-180'); }); document.querySelectorAll('nav a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function (e) { e.preventDefault(); document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' }); }); }); };
-
-        // --- INITIALIZATION ---
-        document.addEventListener('DOMContentLoaded', () => {
-            getReportData();
-            setupInteractivity();
-        });
-    </script>
-
+    // 頁面載入後立刻執行測試
+    window.onload = testConnection;
+  </script>
 </body>
 </html>
